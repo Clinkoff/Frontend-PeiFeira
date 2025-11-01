@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import Cookies from 'js-cookie';
 import type { Usuario } from '@/lib/types';
 
 interface AuthState {
@@ -23,6 +24,8 @@ export const useAuthStore = create<AuthState>()(
         localStorage.setItem('auth_token', token);
         localStorage.setItem('auth_user', JSON.stringify(user));
 
+        Cookies.set('auth_token', token, { expires: 7 });
+
         set({
           user,
           token,
@@ -31,8 +34,10 @@ export const useAuthStore = create<AuthState>()(
       },
 
       clearAuth: () => {
+        // Limpar localStorage e cookies
         localStorage.removeItem('auth_token');
         localStorage.removeItem('auth_user');
+        Cookies.remove('auth_token');
 
         set({
           user: null,
@@ -47,7 +52,7 @@ export const useAuthStore = create<AuthState>()(
         })),
     }),
     {
-      name: 'peifeira-auth', // Nome no localStorage
+      name: 'peifeira-auth',
       partialize: (state) => ({
         user: state.user,
         token: state.token,
