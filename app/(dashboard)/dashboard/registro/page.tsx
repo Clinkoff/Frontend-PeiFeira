@@ -2,12 +2,14 @@ export default function RegistrosPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Registro</h1>
-        <p className="text-gray-600 mt-2">Gerenciar cadastro de usuarios do sistema PeiFeira </p>
+        <h1 className="text-3xl font-bold dark:text-foreground text-gray-900">Registro</h1>
+        <p className="text-gray-600 mt-2 dark:text-muted-foreground">
+          Gerenciar cadastro de usuarios do sistema PeiFeira{' '}
+        </p>
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-        <p className="text-gray-600">Em desenvolvimento...</p>
+      <div className="bg-white rounded-lg border border-gray-200 p-8 text-center dark:bg-card rdas:- dark:border-border">
+        <p className="text-gray-600  dark:text-foreground">Em desenvolvimento...</p>
       </div>
     </div>
   );
