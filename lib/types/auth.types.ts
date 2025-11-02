@@ -14,7 +14,7 @@ export interface Usuario {
   nome: string;
   email: string;
   matricula: string;
-  role: UserRole;
+  tipo: UserRole;
   perfilId?: string;
 }
 

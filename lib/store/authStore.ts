@@ -7,7 +7,6 @@ interface AuthState {
   user: Usuario | null;
   token: string | null;
   isAuthenticated: boolean;
-
   setAuth: (user: Usuario, token: string) => void;
   clearAuth: () => void;
   updateUser: (user: Partial<Usuario>) => void;
@@ -21,10 +20,11 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
 
       setAuth: (user, token) => {
-        localStorage.setItem('auth_token', token);
-        localStorage.setItem('auth_user', JSON.stringify(user));
-
-        Cookies.set('auth_token', token, { expires: 7 });
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('auth_token', token);
+          localStorage.setItem('auth_user', JSON.stringify(user));
+          Cookies.set('auth_token', token, { expires: 7 });
+        }
 
         set({
           user,
@@ -34,10 +34,11 @@ export const useAuthStore = create<AuthState>()(
       },
 
       clearAuth: () => {
-        // Limpar localStorage e cookies
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('auth_user');
-        Cookies.remove('auth_token');
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_user');
+          Cookies.remove('auth_token');
+        }
 
         set({
           user: null,

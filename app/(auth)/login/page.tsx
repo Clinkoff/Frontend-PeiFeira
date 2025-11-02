@@ -44,15 +44,15 @@ export default function LoginPage() {
       <CardHeader className="text-center p-5! space-y-4 pb-6">
         <div
           className="w-20 h-20 mx-auto! rounded-full flex items-center justify-center"
-          style={{ backgroundColor: '#6F73D2' }}
+          style={{ backgroundColor: '#3F5B8B' }}
         >
           <GraduationCap className="w-10 h-10 text-white" />
         </div>
         <div className="space-y-2">
-          <CardTitle className="text-3xl" style={{ color: '#6F73D2' }}>
+          <CardTitle className="text-3xl" style={{ color: '#3F5B8B' }}>
             PeiFeira
           </CardTitle>
-          <CardDescription style={{ color: '#7681B3' }}>
+          <CardDescription style={{ color: '#3F5B8B' }}>
             Gestão de Projetos Integradores
           </CardDescription>
         </div>
@@ -61,7 +61,7 @@ export default function LoginPage() {
       <CardContent className="space-y-6!">
         {errorMessage && (
           <div
-            className="rounded-lg w-md  flex items-center"
+            className="rounded-lg w-md   flex items-center"
             style={{ backgroundColor: '#fee2e2', borderLeft: '4px solid #ef4444' }}
           >
             <AlertCircle className="w-10 h-5! text-red-600 flex-shrink-0 mt-0.5 text-center p-5!" />
@@ -71,13 +71,13 @@ export default function LoginPage() {
         {/* form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4!">
           <div className="space-y-2!">
-            <Label htmlFor="matricula" style={{ color: '#6F73D2' }}>
+            <Label htmlFor="matricula" style={{ color: '#3F5B8B' }}>
               Matrícula
             </Label>
             <div className="relative">
               <Hash
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10"
-                style={{ color: '#7681B3 ' }}
+                style={{ color: '#6C5E82 ' }}
               />
               <Input
                 id="matricula"
@@ -94,13 +94,13 @@ export default function LoginPage() {
           </div>
 
           <div className="space-y-2!">
-            <Label htmlFor="senha" style={{ color: '#6F73D2' }}>
+            <Label htmlFor="senha" style={{ color: '#3F5B8B' }}>
               Senha
             </Label>
             <div className="relative">
               <Lock
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5! h-5! z-10"
-                style={{ color: '#7681B3' }}
+                style={{ color: '#6C5E82' }}
               />
               <Input
                 id="senha"
@@ -116,7 +116,7 @@ export default function LoginPage() {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 hover:opacity-70 transition-opacity"
-                style={{ color: '#7681B3' }}
+                style={{ color: '#6C5E82' }}
                 disabled={isLoggingIn}
               >
                 {showPassword ? <EyeOff /> : <Eye />}
@@ -129,7 +129,7 @@ export default function LoginPage() {
             type="submit"
             className="w-full h-12! border-0 transition-all duration-200 hover:shadow-lg flex items-center justify-center gap-2 mt-6!"
             style={{
-              backgroundColor: isValid && !isLoggingIn ? '#6F73D2' : '#7681B3',
+              backgroundColor: isValid && !isLoggingIn ? '#3F5B8B' : '#2E365A',
               opacity: isValid && !isLoggingIn ? 1 : 0.7,
             }}
             disabled={!isValid || isLoggingIn}
@@ -148,26 +148,24 @@ export default function LoginPage() {
           </Button>
         </form>
         <Separator className="my-6!" />
-        <div className="p-4! rounded-lg space-y-2!" style={{ backgroundColor: '#D9F0FF' }}>
-          <p className="text-sm text-center" style={{ color: '#6F73D2' }}>
+        <div className="p-4! rounded-lg space-y-2!" style={{ backgroundColor: '#96A4C5' }}>
+          <p className="text-sm text-center" style={{ color: '#2E365A' }}>
             Credenciais de teste:
           </p>
           <div className="space-y-1! text-center">
-            <p className="text-xs" style={{ color: '#7681B3' }}>
+            <p className="text-xs" style={{ color: '#2E365A' }}>
               <span>Matrícula:</span> <span className="font-mono">admin</span>
             </p>
-            <p className="text-xs" style={{ color: '#7681B3' }}>
+            <p className="text-xs" style={{ color: '#2E365A' }}>
               <span>Senha:</span> <span className="font-mono">Admin@123</span>
             </p>
           </div>
         </div>
         <div className="text-center space-y-2! pt-2!">
-          <p style={{ color: '#7681B3' }} className="text-sm">
+          <p style={{ color: '#6C5E82' }} className="text-sm">
             Sistema de Gestão Acadêmica
           </p>
-          <p className="text-xs" style={{ color: '#7681B3' }}>
-            Para suporte técnico, entre em contato com a TI da instituição
-          </p>
+          <p className="text-xs" style={{ color: '#6C5E82' }}></p>
         </div>
       </CardContent>
     </Card>
