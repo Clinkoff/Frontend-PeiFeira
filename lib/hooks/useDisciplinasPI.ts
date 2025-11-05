@@ -1,11 +1,10 @@
 // lib/hooks/useDisciplinasPI.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { disciplinaPIApi } from '@/lib/api/disciplinaPiApi';
+import { disciplinaPIApi } from '@/lib/api/disciplinaPIApi';
 import type {
   CreateDisciplinaPIRequest,
   UpdateDisciplinaPIRequest,
-} from '@/lib/types/disciplinaPi.types';
-
+} from '@/lib/types/disciplinaPI.types';
 export const useDisciplinasPI = () => {
   const queryClient = useQueryClient();
 

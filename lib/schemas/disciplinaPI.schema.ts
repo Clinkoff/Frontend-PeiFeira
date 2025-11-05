@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { StatusProjetoIntegrador } from '@/lib/types/disciplinaPi.types';
+import { StatusProjetoIntegrador } from '@/lib/types/disciplinaPI.types';
 
 export const createDisciplinaPISchema = z
   .object({

@@ -5,7 +5,7 @@ import type {
   DisciplinaPIDetailResponse,
   CreateDisciplinaPIRequest,
   UpdateDisciplinaPIRequest,
-} from '@/lib/types/disciplinaPi.types';
+} from '@/lib/types/disciplinaPI.types';
 
 export const disciplinaPIApi = {
   // Listar todas
