@@ -63,12 +63,9 @@ export const turmaApi = {
     await apiClient.delete(`/api/turmas/${id}`);
   },
 
-  // Listar alunos de uma turma
-  // ✅ Corrigido
   getAlunos: async (turmaId: string): Promise<AlunoTurma[]> => {
     const response = await apiClient.get(`/api/matriculas/turma/${turmaId}`);
 
-    // Mapeia para o formato que o front espera
     return response.data.map((m: any) => ({
       id: m.id,
       perfilAlunoId: m.perfilAlunoId,

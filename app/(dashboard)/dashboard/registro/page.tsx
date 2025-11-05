@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Plus, Pencil, Trash2, Eye, Search, Users } from 'lucide-react';
+import { Plus, Pencil, Trash2, Eye, Search, Users, Mail } from 'lucide-react';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { useRouter } from 'next/navigation';
 import type { Usuario } from '@/lib/types/usuario.types';
@@ -182,7 +182,7 @@ export default function RegistrosPage() {
               <CardContent className="space-y-4">
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-600 dark:text-muted-foreground">📧</span>
+                    <Mail className="text-gray-600 dark:text-muted-foreground" />
                     <span className="text-gray-900 dark:text-foreground truncate">
                       {usuario.email}
                     </span>

@@ -6,7 +6,18 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Plus, Pencil, Trash2, Eye, Search, School, Users } from 'lucide-react';
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  Eye,
+  Search,
+  School,
+  Users,
+  Clock,
+  Book,
+  BookCopy,
+} from 'lucide-react';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { useRouter } from 'next/navigation';
 import type { Turma } from '@/lib/types';
@@ -126,7 +137,7 @@ export default function TurmasPage() {
                 <div className="space-y-2 text-sm">
                   {turma.curso && (
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-600 dark:text-muted-foreground">📚 Curso:</span>
+                      <BookCopy />
                       <span className="font-medium text-gray-900 dark:text-foreground">
                         {turma.curso}
                       </span>
@@ -135,7 +146,7 @@ export default function TurmasPage() {
 
                   {turma.periodo && (
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-600 dark:text-muted-foreground">📖 Período:</span>
+                      <Book className="h-5" />
                       <span className="font-medium text-gray-900 dark:text-foreground">
                         {turma.periodo}º
                       </span>
@@ -144,7 +155,7 @@ export default function TurmasPage() {
 
                   {turma.turno && (
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-600 dark:text-muted-foreground">🕐 Turno:</span>
+                      <Clock className="h-5" />
                       <span className="font-medium text-gray-900 dark:text-foreground">
                         {turma.turno}
                       </span>
