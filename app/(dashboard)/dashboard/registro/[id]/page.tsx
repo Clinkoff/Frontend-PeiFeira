@@ -16,6 +16,7 @@ import {
   BookOpen,
   GraduationCap,
   Building,
+  SunMoon,
 } from 'lucide-react';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { useState, use } from 'react';
@@ -55,7 +56,7 @@ export default function DetalheUsuarioPage({ params }: { params: Promise<{ id: s
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'Aluno':
-        return '🎓';
+        return <GraduationCap className="" />;
       case 'Professor':
         return '👨‍🏫';
       case 'Admin':
@@ -161,7 +162,7 @@ export default function DetalheUsuarioPage({ params }: { params: Promise<{ id: s
               <Separator />
 
               <div className="flex items-center gap-3">
-                <span className="text-2xl">{getRoleIcon(usuario.role)}</span>
+                <GraduationCap className='"w-5 h-5' />
                 <div>
                   <p className="text-xs text-gray-600 dark:text-muted-foreground">Função</p>
                   <Badge className={getRoleColor(usuario.role)}>{usuario.role}</Badge>
@@ -195,7 +196,7 @@ export default function DetalheUsuarioPage({ params }: { params: Promise<{ id: s
                 <Separator />
 
                 <div className="flex items-center gap-3">
-                  <span className="text-lg">🌅</span>
+                  <SunMoon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                   <div>
                     <p className="text-xs text-gray-600 dark:text-muted-foreground">Turno</p>
                     <p className="font-medium text-gray-900 dark:text-foreground">

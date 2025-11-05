@@ -58,21 +58,6 @@ export default function RegistrosPage() {
     }
   };
 
-  const getRoleIcon = (role: string) => {
-    switch (role) {
-      case 'Aluno':
-        return '🎓';
-      case 'Professor':
-        return '👨‍🏫';
-      case 'Admin':
-        return '⚙️';
-      case 'Coordenador':
-        return '👨‍💼';
-      default:
-        return '👤';
-    }
-  };
-
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -182,7 +167,6 @@ export default function RegistrosPage() {
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="text-3xl">{getRoleIcon(usuario.role)}</div>
                     <div>
                       <CardTitle className="text-lg text-gray-900 dark:text-foreground">
                         {usuario.nome}

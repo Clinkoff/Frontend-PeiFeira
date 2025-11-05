@@ -9,8 +9,8 @@ export interface Usuario {
   isActive?: boolean;
   criadoEm?: string;
   alteradoEm?: string;
-  perfilAluno?: PerfilAluno | null;
-  perfilProfessor?: PerfilProfessor | null;
+  perfilAluno?: PerfilAluno;
+  perfilProfessor?: PerfilProfessor;
 }
 
 export interface PerfilAluno {
