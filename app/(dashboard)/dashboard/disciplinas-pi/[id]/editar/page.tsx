@@ -1,4 +1,3 @@
-// app/(dashboard)/disciplinaspi/[id]/editar/page.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -23,7 +22,7 @@ export default function EditarDisciplinaPIPage({ params }: { params: Promise<{ i
       };
 
       await update({ id: resolvedParams.id, data: payload });
-      router.push('/dashboard/disciplinaspi');
+      router.push('/dashboard/disciplinas-pi');
     } catch (error) {
       console.error('Erro ao atualizar disciplina:', error);
       alert('Erro ao atualizar disciplina. Tente novamente.');
@@ -47,7 +46,7 @@ export default function EditarDisciplinaPIPage({ params }: { params: Promise<{ i
           <p className="text-red-600 mt-2">Disciplina não encontrada.</p>
         </div>
         <button
-          onClick={() => router.push('/dashboard/disciplinaspi')}
+          onClick={() => router.push('/dashboard/disciplinas-pi')}
           className="text-blue-600 hover:underline"
         >
           ← Voltar para disciplinas

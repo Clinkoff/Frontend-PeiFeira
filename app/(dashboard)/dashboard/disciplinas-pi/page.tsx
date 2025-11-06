@@ -1,4 +1,3 @@
-// app/(dashboard)/disciplinaspi/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -7,7 +6,18 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Plus, Pencil, Trash2, Eye, Search, BookOpen, Calendar } from 'lucide-react';
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  Eye,
+  Search,
+  BookOpen,
+  Calendar,
+  GraduationCap,
+  CalendarDays,
+  ContactRound,
+} from 'lucide-react';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { useRouter } from 'next/navigation';
 import type { DisciplinaPIResponse } from '@/lib/types/disciplinaPI.types';
@@ -106,18 +116,22 @@ export default function DisciplinasPIPage() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredDisciplinas.map((disciplina) => (
-            <Card key={disciplina.id} className="hover:shadow-lg transition-shadow">
+            <Card
+              key={disciplina.id}
+              className="hover:shadow-lg transition-shadow w-full max-w-sm sm:max-w-md overflow-hidden"
+            >
+              {' '}
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3 flex-1">
                     <div className="w-10 h-10 rounded-full bg-[#6F73D2] dark:bg-[#5A5FB8] flex items-center justify-center flex-shrink-0">
                       <BookOpen className="w-5 h-5 text-white" />
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <CardTitle className="text-lg text-gray-900 dark:text-foreground truncate">
+                    <div className="min-w-0 flex-1 overflow-hidden">
+                      <CardTitle className="text-lg text-gray-900 dark:text-foreground line-clamp-2 leading-tight">
                         {disciplina.nome}
                       </CardTitle>
-                      <p className="text-sm text-gray-600 dark:text-muted-foreground truncate">
+                      <p className="text-sm text-gray-600 dark:text-muted-foreground line-clamp-1">
                         {disciplina.temaGeral}
                       </p>
                     </div>
@@ -131,9 +145,7 @@ export default function DisciplinasPIPage() {
                 <div className="space-y-2 text-sm">
                   {disciplina.nomeProfessor && (
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-600 dark:text-muted-foreground">
-                        👨‍🏫 Professor:
-                      </span>
+                      <ContactRound className="w-4 h-4 text-gray-500" />
                       <span className="font-medium text-gray-900 dark:text-foreground truncate">
                         {disciplina.nomeProfessor}
                       </span>
@@ -142,7 +154,7 @@ export default function DisciplinasPIPage() {
 
                   {disciplina.nomeSemestre && (
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-600 dark:text-muted-foreground">📅 Semestre:</span>
+                      <CalendarDays className="w-4 h-4 text-gray-500" />
                       <span className="font-medium text-gray-900 dark:text-foreground">
                         {disciplina.nomeSemestre}
                       </span>
@@ -150,7 +162,7 @@ export default function DisciplinasPIPage() {
                   )}
 
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-600 dark:text-muted-foreground">🎓 Turmas:</span>
+                    <GraduationCap className="w-4 h-4 text-gray-500" />
                     <span className="font-medium text-gray-900 dark:text-foreground">
                       {disciplina.quantidadeTurmas || 0}
                     </span>
@@ -170,7 +182,7 @@ export default function DisciplinasPIPage() {
                     variant="outline"
                     size="sm"
                     className="flex-1"
-                    onClick={() => router.push(`/dashboard/disciplinaspi/${disciplina.id}`)}
+                    onClick={() => router.push(`/dashboard/disciplinas-pi/${disciplina.id}`)}
                   >
                     <Eye className="w-4 h-4 mr-1" />
                     Ver
@@ -179,7 +191,7 @@ export default function DisciplinasPIPage() {
                     variant="outline"
                     size="sm"
                     className="flex-1"
-                    onClick={() => router.push(`/dashboard/disciplinaspi/${disciplina.id}/editar`)}
+                    onClick={() => router.push(`/dashboard/disciplinas-pi/${disciplina.id}/editar`)}
                   >
                     <Pencil className="w-4 h-4 mr-1" />
                     Editar

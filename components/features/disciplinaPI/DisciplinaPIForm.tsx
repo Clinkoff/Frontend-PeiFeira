@@ -20,13 +20,14 @@ import {
   type CreateDisciplinaPIFormData,
   type UpdateDisciplinaPIFormData,
 } from '@/lib/schemas/disciplinaPI.schema';
-import type { DisciplinaPIResponse, StatusProjetoIntegrador } from '@/lib/types/disciplinaPI.types';
-import { StatusProjetoIntegradorLabels } from '@/lib/types/disciplinaPI.types';
+import type { DisciplinaPIResponse, StatusProjetoIntegrador } from '@/lib/types';
+import { StatusProjetoIntegradorLabels } from '@/lib/types';
 import { useSemestres } from '@/lib/hooks/useSemestres';
 import { useTurmas } from '@/lib/hooks/useTurmas';
 import { useUsuarios } from '@/lib/hooks/useUsuarios';
-import { BookOpen, Calendar, Users, X } from 'lucide-react';
+import { BookOpen, Calendar, Users, X, Loader2, AlertCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { withPlaceholder } from '@/lib/utils/selectUtils';
 
 interface DisciplinaPIFormCreateProps {
   mode: 'create';
@@ -47,13 +48,16 @@ export function DisciplinaPIForm(props: DisciplinaPIFormProps) {
   const { mode, onSubmit, isLoading } = props;
   const isEdit = mode === 'edit';
 
-  const { semestres } = useSemestres();
-  const { turmas } = useTurmas();
-  const { usuarios } = useUsuarios();
+  const { semestres, isLoading: isLoadingSemestres } = useSemestres();
+  const { turmas, isLoading: isLoadingTurmas } = useTurmas();
+  const { professores, isLoadingProfessores } = useUsuarios();
 
-  // Filtrar apenas professores ativos
-  const professores = usuarios.filter(
-    (usuario) => usuario.role === 'Professor' && usuario.perfilProfessor && usuario.isActive
+  const semestresOptions = withPlaceholder(semestres, 'nome', 'id', 'Selecione um semestre');
+  const professoresOptions = withPlaceholder(
+    professores,
+    'nome',
+    'perfilProfessor',
+    'Selecione um professor'
   );
 
   const {
@@ -130,53 +134,110 @@ export function DisciplinaPIForm(props: DisciplinaPIFormProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Semestre *</Label>
-                <Select
-                  value={semestreId || ''}
-                  onValueChange={(value) => setValue('semestreId', value, { shouldValidate: true })}
-                >
-                  <SelectTrigger className={errors.semestreId ? 'border-red-500' : ''}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectPopup>
-                    {semestres.map((semestre) => (
-                      <SelectItem key={semestre.id} value={semestre.id}>
-                        {semestre.nome} ({semestre.ano}.{semestre.periodo})
-                      </SelectItem>
-                    ))}
-                  </SelectPopup>
-                </Select>
-                {errors.semestreId && (
-                  <p className="text-sm text-red-600">{errors.semestreId?.message as string}</p>
+                {isLoadingSemestres ? (
+                  <div className="flex items-center gap-2 p-2 border rounded-md">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span className="text-sm text-gray-600 dark:text-muted-foreground">
+                      Carregando semestres...
+                    </span>
+                  </div>
+                ) : semestres.length === 0 ? (
+                  <div className="flex items-center gap-2 p-2 border border-red-300 rounded-md bg-red-50 dark:bg-red-900/20">
+                    <AlertCircle className="w-4 h-4 text-red-600" />
+                    <span className="text-sm text-red-600 dark:text-red-400">
+                      Nenhum semestre cadastrado
+                    </span>
+                  </div>
+                ) : (
+                  <>
+                    <Select
+                      value={semestreId ?? null}
+                      onValueChange={(value) =>
+                        setValue('semestreId', value, { shouldValidate: true })
+                      }
+                    >
+                      <SelectTrigger className={errors.semestreId ? 'border-red-500' : ''}>
+                        {/* 👇 Aqui controlamos manualmente o que aparece */}
+                        <SelectValue>
+                          {semestresOptions.find((s) => s.id === semestreId)?.nome ??
+                            'Selecione um semestre'}
+                        </SelectValue>
+                      </SelectTrigger>
+
+                      <SelectPopup>
+                        {semestresOptions.map((sem) => (
+                          <SelectItem key={sem.id ?? 'placeholder'} value={sem.id ?? null}>
+                            {sem.nome ?? 'Selecione um semestre'}
+                          </SelectItem>
+                        ))}
+                      </SelectPopup>
+                    </Select>
+
+                    {errors.semestreId && (
+                      <p className="text-sm text-red-600">{errors.semestreId?.message as string}</p>
+                    )}
+                  </>
                 )}
               </div>
 
               <div className="space-y-2">
                 <Label>Professor Responsável *</Label>
-                <Select
-                  value={perfilProfessorId || ''}
-                  onValueChange={(value) =>
-                    setValue('perfilProfessorId', value, { shouldValidate: true })
-                  }
-                >
-                  <SelectTrigger className={errors.perfilProfessorId ? 'border-red-500' : ''}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectPopup>
-                    {professores.map((professor) => (
-                      <SelectItem
-                        key={professor.perfilProfessor!.id}
-                        value={professor.perfilProfessor!.id!}
-                      >
-                        {professor.nome} -{' '}
-                        {professor.perfilProfessor?.departamento || 'Sem departamento'}
-                      </SelectItem>
-                    ))}
-                  </SelectPopup>
-                </Select>
-                {errors.perfilProfessorId && (
-                  <p className="text-sm text-red-600">
-                    {errors.perfilProfessorId?.message as string}
-                  </p>
+                {isLoadingProfessores ? (
+                  <div className="flex items-center gap-2 p-2 border rounded-md">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span className="text-sm text-gray-600 dark:text-muted-foreground">
+                      Carregando professores...
+                    </span>
+                  </div>
+                ) : professores.length === 0 ? (
+                  <div className="flex flex-col gap-2 p-3 border border-red-300 rounded-md bg-red-50 dark:bg-red-900/20">
+                    <div className="flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 text-red-600" />
+                      <span className="text-sm text-red-600 dark:text-red-400 font-medium">
+                        Nenhum professor cadastrado
+                      </span>
+                    </div>
+                    <p className="text-xs text-red-600 dark:text-red-400">
+                      É necessário cadastrar um professor antes de criar uma disciplina PI.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <Select
+                      value={perfilProfessorId ?? null}
+                      onValueChange={(value) =>
+                        setValue('perfilProfessorId', value, { shouldValidate: true })
+                      }
+                    >
+                      <SelectTrigger className={errors.perfilProfessorId ? 'border-red-500' : ''}>
+                        <SelectValue>
+                          {professoresOptions.find(
+                            (p) => p.perfilProfessor?.id === perfilProfessorId
+                          )?.nome ?? 'Selecione um professor'}
+                        </SelectValue>
+                      </SelectTrigger>
+
+                      <SelectPopup>
+                        {professoresOptions.map((professor) => (
+                          <SelectItem
+                            key={professor.perfilProfessor?.id ?? 'placeholder'}
+                            value={professor.perfilProfessor?.id ?? null}
+                          >
+                            {professor.nome ?? 'Selecione um professor'}
+                          </SelectItem>
+                        ))}
+                      </SelectPopup>
+                    </Select>
+
+                    {errors.perfilProfessorId && (
+                      <p className="text-sm text-red-600">
+                        {errors.perfilProfessorId?.message as string}
+                      </p>
+                    )}
+                    <p className="text-xs text-gray-600 dark:text-muted-foreground">
+                      {professores.length} professor(es) disponível(is)
+                    </p>
+                  </>
                 )}
               </div>
             </div>
@@ -278,13 +339,20 @@ export function DisciplinaPIForm(props: DisciplinaPIFormProps) {
               <div className="space-y-2">
                 <Label>Status *</Label>
                 <Select
-                  value={status || ''}
+                  value={status ?? null}
                   onValueChange={(value) => setValue('status', value, { shouldValidate: true })}
                 >
                   <SelectTrigger className={errors.status ? 'border-red-500' : ''}>
-                    <SelectValue />
+                    <SelectValue>
+                      {statusOptions.find((opt) => opt.value === status)?.label ??
+                        'Selecione um status'}
+                    </SelectValue>
                   </SelectTrigger>
+
                   <SelectPopup>
+                    <SelectItem key="placeholder" value={null}>
+                      Selecione um status
+                    </SelectItem>
                     {statusOptions.map(({ value, label }) => (
                       <SelectItem key={value} value={value}>
                         {label}
@@ -292,6 +360,7 @@ export function DisciplinaPIForm(props: DisciplinaPIFormProps) {
                     ))}
                   </SelectPopup>
                 </Select>
+
                 {errors.status && (
                   <p className="text-sm text-red-600">{errors.status?.message as string}</p>
                 )}
@@ -335,36 +404,65 @@ export function DisciplinaPIForm(props: DisciplinaPIFormProps) {
               </div>
             )}
 
-            {/* Adicionar Turma */}
-            <div className="space-y-2">
-              <Label>Adicionar turma:</Label>
-              <Select value="" onValueChange={handleAddTurma}>
-                <SelectTrigger className={errors.turmaIds ? 'border-red-500' : ''}>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectPopup>
-                  {turmasDisponiveis.length === 0 ? (
-                    <div className="p-4 text-center text-gray-600 dark:text-muted-foreground">
-                      Todas as turmas já foram adicionadas
-                    </div>
-                  ) : (
-                    turmasDisponiveis.map((turma) => (
+            {turmasDisponiveis.length > 0 && (
+              <div className="space-y-2">
+                <Label>Adicionar turma:</Label>
+                <Select value="" onValueChange={handleAddTurma}>
+                  <SelectTrigger className={errors.turmaIds ? 'border-red-500' : ''}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectPopup>
+                    {turmasDisponiveis.map((turma) => (
                       <SelectItem key={turma.id} value={turma.id}>
                         {turma.nome} ({turma.codigo}) - {turma.curso || 'Sem curso'}
                       </SelectItem>
-                    ))
-                  )}
-                </SelectPopup>
-              </Select>
-              {errors.turmaIds && (
-                <p className="text-sm text-red-600">{errors.turmaIds?.message as string}</p>
-              )}
-            </div>
+                    ))}
+                  </SelectPopup>
+                </Select>
+              </div>
+            )}
+
+            {/* Mensagem quando todas as turmas foram adicionadas */}
+            {turmasSelecionadas.length > 0 && turmasDisponiveis.length === 0 && (
+              <div className="p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md">
+                <p className="text-sm text-green-800 dark:text-green-400">
+                  ✓ Todas as turmas disponíveis foram adicionadas
+                </p>
+              </div>
+            )}
+
+            {errors.turmaIds && (
+              <p className="text-sm text-red-600">{errors.turmaIds?.message as string}</p>
+            )}
+
+            {/* Aviso se não há turmas no sistema */}
+            {turmas.length === 0 && (
+              <div className="flex flex-col gap-2 p-3 border border-orange-300 rounded-md bg-orange-50 dark:bg-orange-900/20">
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-orange-600" />
+                  <span className="text-sm text-orange-600 dark:text-orange-400 font-medium">
+                    Nenhuma turma cadastrada
+                  </span>
+                </div>
+                <p className="text-xs text-orange-600 dark:text-orange-400">
+                  É necessário cadastrar ao menos uma turma antes de criar uma disciplina PI.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Botões */}
           <div className="flex gap-4 pt-4">
-            <Button type="submit" disabled={isLoading} className="flex-1">
+            <Button
+              type="submit"
+              disabled={
+                isLoading ||
+                (professores.length === 0 && !isEdit) ||
+                (semestres.length === 0 && !isEdit) ||
+                turmas.length === 0
+              }
+              className="flex-1"
+            >
               {isLoading ? 'Salvando...' : isEdit ? 'Atualizar Disciplina' : 'Criar Disciplina'}
             </Button>
             <Button

@@ -1,4 +1,3 @@
-// app/(dashboard)/disciplinaspi/[id]/page.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -18,6 +17,7 @@ import {
   Target,
   FileText,
   School,
+  BookOpenText,
 } from 'lucide-react';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { useState, use } from 'react';
@@ -36,7 +36,7 @@ export default function DetalheDisciplinaPIPage({ params }: { params: Promise<{ 
   const handleDelete = async () => {
     try {
       await deleteDisciplina(resolvedParams.id);
-      router.push('/dashboard/disciplinaspi');
+      router.push('/dashboard/disciplinas-pi');
     } catch (error) {
       console.error('Erro ao deletar disciplina:', error);
       alert('Erro ao deletar disciplina. Tente novamente.');
@@ -59,7 +59,7 @@ export default function DetalheDisciplinaPIPage({ params }: { params: Promise<{ 
           <h1 className="text-3xl font-bold text-gray-900 dark:text-foreground">Erro</h1>
           <p className="text-red-600 mt-2">Disciplina não encontrada.</p>
         </div>
-        <Button variant="outline" onClick={() => router.push('/dashboard/disciplinaspi')}>
+        <Button variant="outline" onClick={() => router.push('/dashboard/disciplinas-pi')}>
           <ArrowLeft className="w-4 h-4 mr-2" />
           Voltar para disciplinas
         </Button>
@@ -70,33 +70,37 @@ export default function DetalheDisciplinaPIPage({ params }: { params: Promise<{ 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+      <div className="flex items-start justify-between flex-wrap gap-4">
+        <div className="flex items-start gap-4">
           <Button
             variant="outline"
             size="icon"
-            onClick={() => router.push('/dashboard/disciplinaspi')}
+            onClick={() => router.push('/dashboard/disciplinas-pi')}
           >
             <ArrowLeft className="w-4 h-4" />
           </Button>
-          <div>
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">📚</span>
+
+          <div className="flex flex-col">
+            <div className="flex flex-wrap items-center gap-3">
+              <BookOpenText />
               <h1 className="text-3xl font-bold text-gray-900 dark:text-foreground">
                 {disciplina.nome}
               </h1>
-              <Badge className={StatusProjetoIntegradorColors[disciplina.status]}>
+              <Badge
+                className={`${StatusProjetoIntegradorColors[disciplina.status]} text-xs px-2 py-0.5`}
+              >
                 {StatusProjetoIntegradorLabels[disciplina.status]}
               </Badge>
             </div>
+
             <p className="text-gray-600 dark:text-muted-foreground mt-1">{disciplina.temaGeral}</p>
           </div>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 self-start">
           <Button
             variant="outline"
-            onClick={() => router.push(`/dashboard/disciplinaspi/${disciplina.id}/editar`)}
+            onClick={() => router.push(`/dashboard/disciplinas-pi/${disciplina.id}/editar`)}
           >
             <Pencil className="w-4 h-4 mr-2" />
             Editar

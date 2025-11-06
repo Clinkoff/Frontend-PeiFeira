@@ -19,7 +19,7 @@ export default function NovaDisciplinaPIPage() {
       };
 
       await create(payload);
-      router.push('/dashboard/disciplinaspi');
+      router.push('/dashboard/disciplinas-pi');
     } catch (error) {
       console.error('Erro ao criar disciplina:', error);
       alert('Erro ao criar disciplina. Tente novamente.');
