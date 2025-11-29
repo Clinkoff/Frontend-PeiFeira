@@ -24,6 +24,6 @@ export interface UpdateSemestreRequest {
 }
 
 export interface SemestreWithDetails extends Semestre {
-  turmas?: any[]; // Vamos tipar melhor quando criar Turma
+  turmas?: any[]; // tipar melhor quando criar Turma
   totalTurmas?: number;
 }

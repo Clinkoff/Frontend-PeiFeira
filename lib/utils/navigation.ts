@@ -9,7 +9,7 @@ import {
   ClipboardList,
   type LucideIcon,
 } from 'lucide-react';
-import { UserRole } from '@/lib/types';
+import { UserRole } from '@/lib/types/usuario.types';
 
 export interface NavItem {
   title: string;

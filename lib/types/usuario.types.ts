@@ -1,11 +1,10 @@
-// lib/types/usuario.types.ts
 export interface Usuario {
   id: string;
   matricula: string;
   nome: string;
   email: string;
   role: UserRole;
-  senhaHash: string;
+  senhaHash?: string;
   isActive?: boolean;
   criadoEm?: string;
   alteradoEm?: string;
@@ -34,7 +33,7 @@ export interface CreateUsuarioRequest {
   matricula: string;
   nome: string;
   email: string;
-  senha: string; // Backend espera "senha", não "senhaHash"
+  senha: string;
   role: UserRole;
   perfilProfessor?: PerfilProfessor;
   perfilAluno?: PerfilAluno;
@@ -50,4 +49,9 @@ export interface UsuarioWithDetails extends Usuario {
   totalProjetos?: number;
 }
 
-export type UserRole = 'Admin' | 'Professor' | 'Aluno' | 'Coordenador';
+export enum UserRole {
+  Admin = 'Admin',
+  Professor = 'Professor',
+  Aluno = 'Aluno',
+  Coordenador = 'Coordenador',
+}

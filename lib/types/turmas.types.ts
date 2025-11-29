@@ -20,7 +20,7 @@ export interface TurmaWithDetails extends Turma {
   };
   alunosTurma?: AlunoTurma[];
   totalAlunos?: number;
-  disciplinasPI?: any[]; // Vamos tipar melhor quando criar DisciplinaPI
+  disciplinasPI?: any[]; // tipar melhor quando criar DisciplinaPI
 }
 
 export interface AlunoTurma {
