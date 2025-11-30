@@ -4,6 +4,7 @@ import { Menu, Bell, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { ConvitesBadge } from '../shared/ConvitesBadge';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -22,7 +23,7 @@ export function Header({ onMenuClick }: HeaderProps) {
         >
           <Menu className="w-6! h-6! text-gray-700 dark:text-foreground" />
         </button>
-
+        <ConvitesBadge />
         <h1 className="text-xl font-semibold text-gray-900 dark:text-foreground hidden sm:block">
           Sistema de Gestão Acadêmica
         </h1>

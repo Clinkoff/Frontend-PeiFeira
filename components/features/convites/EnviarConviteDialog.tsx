@@ -110,10 +110,7 @@ export function EnviarConviteDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 flex-1 overflow-hidden flex flex-col"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 flex-1 overflow-hidden flex flex-col">
           {/* Busca */}
           <div className="space-y-2">
             <Label>Buscar Aluno</Label>
@@ -198,7 +195,9 @@ export function EnviarConviteDialog({
                 placeholder="Adicione uma mensagem personalizada ao convite..."
                 className={errors.mensagem ? 'border-red-500' : ''}
               />
-              {errors.mensagem && <p className="text-sm text-red-600">{errors.mensagem.message}</p>}
+              {errors.mensagem && (
+                <p className="text-sm text-red-600">{errors.mensagem.message}</p>
+              )}
             </div>
           )}
 

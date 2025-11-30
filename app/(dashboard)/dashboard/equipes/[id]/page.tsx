@@ -1,4 +1,3 @@
-// app/(dashboard)/equipes/[id]/page.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -20,9 +19,11 @@ import {
   Calendar,
   FileText,
   UserMinus,
+  Send,
 } from 'lucide-react';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { AdicionarMembroDialog } from '@/components/features/equipes/AdicionarMembroDialog';
+import { EnviarConviteDialog } from '@/components/features/convites/EnviarConviteDialog';
 import { useState, use } from 'react';
 
 export default function DetalheEquipePage({ params }: { params: Promise<{ id: string }> }) {
@@ -40,9 +41,11 @@ export default function DetalheEquipePage({ params }: { params: Promise<{ id: st
     isRemovingMembro,
   } = useEquipes();
   const { data: equipe, isLoading, error } = useEquipeById(resolvedParams.id);
+  
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteMembroDialogOpen, setDeleteMembroDialogOpen] = useState(false);
   const [adicionarMembroDialogOpen, setAdicionarMembroDialogOpen] = useState(false);
+  const [enviarConviteDialogOpen, setEnviarConviteDialogOpen] = useState(false);
   const [regenerarCodigoDialogOpen, setRegenerarCodigoDialogOpen] = useState(false);
   const [selectedMembro, setSelectedMembro] = useState<any>(null);
 
@@ -358,10 +361,24 @@ export default function DetalheEquipePage({ params }: { params: Promise<{ id: st
               <Users className="w-5 h-5" />
               Membros ({equipe.membros?.length || 0})
             </CardTitle>
-            <Button variant="outline" size="sm" onClick={() => setAdicionarMembroDialogOpen(true)}>
-              <UserPlus className="w-4 h-4 mr-1" />
-              Adicionar Membro
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setEnviarConviteDialogOpen(true)}
+              >
+                <Send className="w-4 h-4 mr-1" />
+                Enviar Convite
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setAdicionarMembroDialogOpen(true)}
+              >
+                <UserPlus className="w-4 h-4 mr-1" />
+                Adicionar Membro
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
@@ -450,6 +467,14 @@ export default function DetalheEquipePage({ params }: { params: Promise<{ id: st
         membrosAtuais={membrosAtuaisIds}
         onAdicionar={handleAdicionarMembro}
         isLoading={isAddingMembro}
+      />
+
+      <EnviarConviteDialog
+        open={enviarConviteDialogOpen}
+        onOpenChange={setEnviarConviteDialogOpen}
+        equipeId={resolvedParams.id}
+        liderPerfilAlunoId={equipe.liderPerfilAlunoId}
+        membrosAtuais={membrosAtuaisIds}
       />
     </div>
   );
