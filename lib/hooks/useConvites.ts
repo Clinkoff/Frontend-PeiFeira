@@ -1,4 +1,3 @@
-// lib/hooks/useConvites.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { conviteApi } from '@/lib/api/conviteApi';
 import { useAuth } from '@/lib/hooks/useAuth';
@@ -7,19 +6,28 @@ import type { CreateConviteEquipeRequest } from '@/lib/types';
 export const useConvites = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
-
-  // Pegar perfilAlunoId do usuário logado
   const perfilAlunoId = user?.perfilAluno?.id;
 
-  // Query: Convites pendentes do usuário logado
+  // Query: Convites pendentes (Lista completa)
   const convitesPendentesQuery = useQuery({
     queryKey: ['convites-pendentes', perfilAlunoId],
     queryFn: () => conviteApi.getConvitesPendentes(perfilAlunoId!),
     enabled: !!perfilAlunoId,
-    refetchInterval: 30000, // Refetch a cada 30s
+    refetchInterval: 30000,
   });
 
-  // Query: Convites por equipe
+  // Query: Apenas contagem (Otimizada para notificação)
+  const countPendentesQuery = useQuery({
+    queryKey: ['convites-count', perfilAlunoId],
+    queryFn: async () => {
+      const convites = await conviteApi.getConvitesPendentes(perfilAlunoId!);
+      return convites.length;
+    },
+    enabled: !!perfilAlunoId,
+    refetchInterval: 30000,
+    refetchOnWindowFocus: true,
+  });
+
   const useConvitesPorEquipe = (equipeId: string) =>
     useQuery({
       queryKey: ['convites-equipe', equipeId],
@@ -27,15 +35,6 @@ export const useConvites = () => {
       enabled: !!equipeId,
     });
 
-  // Query: Convite por ID
-  const useConviteById = (id: string) =>
-    useQuery({
-      queryKey: ['convite', id],
-      queryFn: () => conviteApi.getById(id),
-      enabled: !!id,
-    });
-
-  // Mutation: Criar convite
   const createMutation = useMutation({
     mutationFn: (data: CreateConviteEquipeRequest) => conviteApi.create(data),
     onSuccess: () => {
@@ -43,27 +42,23 @@ export const useConvites = () => {
     },
   });
 
-  // Mutation: Aceitar convite
   const aceitarMutation = useMutation({
     mutationFn: (id: string) => conviteApi.aceitar(id, perfilAlunoId!),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['convites-pendentes'] });
+      queryClient.invalidateQueries({ queryKey: ['convites-count'] });
       queryClient.invalidateQueries({ queryKey: ['equipe'] });
-      queryClient.invalidateQueries({ queryKey: ['equipes'] });
-      queryClient.invalidateQueries({ queryKey: ['membros-equipe'] });
     },
   });
 
-  // Mutation: Recusar convite
   const recusarMutation = useMutation({
     mutationFn: (id: string) => conviteApi.recusar(id, perfilAlunoId!),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['convites-pendentes'] });
-      queryClient.invalidateQueries({ queryKey: ['convites-equipe'] });
+      queryClient.invalidateQueries({ queryKey: ['convites-count'] });
     },
   });
 
-  // Mutation: Cancelar convite
   const cancelarMutation = useMutation({
     mutationFn: (id: string) => conviteApi.cancelar(id, perfilAlunoId!),
     onSuccess: () => {
@@ -72,21 +67,18 @@ export const useConvites = () => {
   });
 
   return {
-    // Queries
     convitesPendentes: convitesPendentesQuery.data || [],
     isLoadingPendentes: convitesPendentesQuery.isLoading,
-    countPendentes: convitesPendentesQuery.data?.length || 0,
+    countPendentes: countPendentesQuery.data || 0,
+    isLoadingCount: countPendentesQuery.isLoading,
 
     useConvitesPorEquipe,
-    useConviteById,
 
-    // Mutations
     create: createMutation.mutateAsync,
     aceitar: aceitarMutation.mutateAsync,
     recusar: recusarMutation.mutateAsync,
     cancelar: cancelarMutation.mutateAsync,
 
-    // Status
     isCreating: createMutation.isPending,
     isAceitando: aceitarMutation.isPending,
     isRecusando: recusarMutation.isPending,

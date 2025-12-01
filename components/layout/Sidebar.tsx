@@ -4,6 +4,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/hooks/useAuth';
+import { useConvites } from '@/lib/hooks/useConvites';
 import { getVisibleNavItems } from '@/lib/utils/navigation';
 import { GraduationCap, LogOut, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -17,7 +18,14 @@ interface SidebarProps {
 export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
-  const navItems = getVisibleNavItems(user?.tipo);
+  const { countPendentes } = useConvites();
+  const navItems = getVisibleNavItems(user?.role);
+
+  console.log('🔍 Sidebar component renderizado', {
+    isOpen,
+    hasOnClose: !!onClose,
+    countPendentes,
+  });
 
   const handleLogout = async () => {
     await logout();
@@ -63,7 +71,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             {user?.nome}
           </p>
           <p className="text-xs text-gray-600 dark:text-muted-foreground truncate">{user?.email}</p>
-          <p className="text-xs text-[#3F5B8B] dark:text-primary font-medium mt-1">{user?.tipo}</p>
+          <p className="text-xs text-[#3F5B8B] dark:text-primary font-medium mt-1">{user?.role}</p>
         </div>
 
         <Separator />
@@ -72,6 +80,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             const Icon = item.icon;
+            const showBadge = item.href === '/convites' && countPendentes > 0;
             return (
               <Link
                 key={item.href}
@@ -84,7 +93,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 }`}
               >
                 <Icon className="w-5 h-5" />
-                <span>{item.title}</span>
+                <span className="flex-1">{item.title}</span>
+                {showBadge && (
+                  <span className="ml-auto bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                    {countPendentes > 9 ? '9+' : countPendentes}
+                  </span>
+                )}
               </Link>
             );
           })}

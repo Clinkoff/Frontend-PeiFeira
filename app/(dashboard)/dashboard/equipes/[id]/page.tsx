@@ -41,7 +41,7 @@ export default function DetalheEquipePage({ params }: { params: Promise<{ id: st
     isRemovingMembro,
   } = useEquipes();
   const { data: equipe, isLoading, error } = useEquipeById(resolvedParams.id);
-  
+
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteMembroDialogOpen, setDeleteMembroDialogOpen] = useState(false);
   const [adicionarMembroDialogOpen, setAdicionarMembroDialogOpen] = useState(false);
@@ -144,7 +144,6 @@ export default function DetalheEquipePage({ params }: { params: Promise<{ id: st
           </Button>
           <div>
             <div className="flex items-center gap-3">
-              <span className="text-3xl">👥</span>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-foreground">
                 {equipe.nome}
               </h1>
@@ -362,11 +361,7 @@ export default function DetalheEquipePage({ params }: { params: Promise<{ id: st
               Membros ({equipe.membros?.length || 0})
             </CardTitle>
             <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setEnviarConviteDialogOpen(true)}
-              >
+              <Button variant="outline" size="sm" onClick={() => setEnviarConviteDialogOpen(true)}>
                 <Send className="w-4 h-4 mr-1" />
                 Enviar Convite
               </Button>

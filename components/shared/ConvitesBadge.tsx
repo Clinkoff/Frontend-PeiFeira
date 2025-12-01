@@ -9,7 +9,7 @@ export function ConvitesBadge() {
   const { countPendentes } = useConvites();
 
   return (
-    <Link href="/dashboard/convites">
+    <Link href="/convites">
       <Button variant="ghost" size="icon" className="relative">
         <Bell className="w-5 h-5" />
         {countPendentes > 0 && (

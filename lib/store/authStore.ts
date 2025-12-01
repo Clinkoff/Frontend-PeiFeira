@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import Cookies from 'js-cookie';
-import type { Usuario } from '@/lib/types';
+import type { Usuario } from '@/lib/types/usuario.types';
 
 interface AuthState {
   user: Usuario | null;
@@ -54,6 +54,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'peifeira-auth',
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         user: state.user,
         token: state.token,

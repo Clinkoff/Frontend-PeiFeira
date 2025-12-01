@@ -1,9 +1,11 @@
 import { apiClient } from './client';
-import type { LoginRequest, LoginResponse, Usuario } from '@/lib/types';
+import type { LoginRequest, LoginResponse } from '@/lib/types/auth.types';
+import type { Usuario } from '@/lib/types/usuario.types';
 
 export const authApi = {
   login: async (credentials: LoginRequest): Promise<LoginResponse> => {
     const response = await apiClient.post<LoginResponse>('/api/auth/login', credentials);
+    console.log('📡 API RECEBEU:', response.data);
     return response.data;
   },
 

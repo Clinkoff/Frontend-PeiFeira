@@ -17,6 +17,7 @@ import {
   BookOpen,
   Users,
   Clock,
+  GraduationCap,
 } from 'lucide-react';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { useState, use } from 'react';
@@ -76,7 +77,7 @@ export default function DetalheTurmaPage({ params }: { params: Promise<{ id: str
           </Button>
           <div>
             <div className="flex items-center gap-3">
-              <span className="text-3xl">🎓</span>
+              <GraduationCap />
               <h1 className="text-3xl font-bold text-gray-900 dark:text-foreground">
                 {turma.nome}
               </h1>
@@ -193,7 +194,7 @@ export default function DetalheTurmaPage({ params }: { params: Promise<{ id: str
               {turma.periodo && (
                 <>
                   <div className="flex items-center gap-3">
-                    <span className="text-lg">📖</span>
+                    <BookOpen className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                     <div>
                       <p className="text-xs text-gray-600 dark:text-muted-foreground">Período</p>
                       <p className="font-medium text-gray-900 dark:text-foreground">
@@ -229,7 +230,7 @@ export default function DetalheTurmaPage({ params }: { params: Promise<{ id: str
             {turma.semestre ? (
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">📅</span>
+                  <Calendar className="w-5 h-5" />
                   <div>
                     <p className="text-xs text-gray-600 dark:text-muted-foreground">Nome</p>
                     <p className="font-medium text-gray-900 dark:text-foreground">
@@ -241,7 +242,7 @@ export default function DetalheTurmaPage({ params }: { params: Promise<{ id: str
                 <Separator />
 
                 <div className="flex items-center gap-3">
-                  <span className="text-lg">📆</span>
+                  <Calendar className="w-5 h-5" />
                   <div>
                     <p className="text-xs text-gray-600 dark:text-muted-foreground">Ano/Período</p>
                     <p className="font-medium text-gray-900 dark:text-foreground">

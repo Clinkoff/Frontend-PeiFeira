@@ -1,10 +1,11 @@
 'use client';
 
-import { Menu, Bell, User } from 'lucide-react';
+import { Menu, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { ConvitesBadge } from '../shared/ConvitesBadge';
+import { NotificationPanel } from '../shared/NotificationPanel';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -23,7 +24,6 @@ export function Header({ onMenuClick }: HeaderProps) {
         >
           <Menu className="w-6! h-6! text-gray-700 dark:text-foreground" />
         </button>
-        <ConvitesBadge />
         <h1 className="text-xl font-semibold text-gray-900 dark:text-foreground hidden sm:block">
           Sistema de Gestão Acadêmica
         </h1>
@@ -35,12 +35,7 @@ export function Header({ onMenuClick }: HeaderProps) {
         <ThemeToggle />
 
         {/* Notifications */}
-        <Button variant="outline" size="icon" className="relative">
-          <Bell className="w-5!h-5!" />
-          <span className="absolute -top-1 -right-1 w-4! h-4! bg-red-500 rounded-full text-white text-xs flex items-center justify-center">
-            3
-          </span>
-        </Button>
+        <NotificationPanel />
 
         {/* User Profile */}
         <Button variant="outline" className="gap-2">

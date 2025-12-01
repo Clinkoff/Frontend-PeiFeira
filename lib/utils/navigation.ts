@@ -7,6 +7,7 @@ import {
   GraduationCap,
   UserCircle,
   ClipboardList,
+  Mail,
   type LucideIcon,
 } from 'lucide-react';
 import { UserRole } from '@/lib/types/usuario.types';
@@ -16,6 +17,7 @@ export interface NavItem {
   href: string;
   icon: LucideIcon;
   roles?: UserRole[];
+  badge?: number;
 }
 
 export const navigationItems: NavItem[] = [
@@ -50,6 +52,12 @@ export const navigationItems: NavItem[] = [
     title: 'Equipes',
     href: '/dashboard/equipes',
     icon: Briefcase,
+  },
+  {
+    title: 'Meus Convites',
+    href: '/convites',
+    icon: Mail,
+    roles: [UserRole.Aluno],
   },
   {
     title: 'Registro',

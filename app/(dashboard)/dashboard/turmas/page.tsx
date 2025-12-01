@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { useRouter } from 'next/navigation';
-import type { Turma } from '@/lib/types';
+import type { Turma } from '@/lib/types/turmas.types';
 
 export default function TurmasPage() {
   const router = useRouter();
@@ -172,15 +172,6 @@ export default function TurmasPage() {
                   >
                     <Eye className="w-4 h-4 mr-1" />
                     Ver
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-1"
-                    onClick={() => router.push(`/dashboard/turmas/${turma.id}/editar`)}
-                  >
-                    <Pencil className="w-4 h-4 mr-1" />
-                    Editar
                   </Button>
                   <Button variant="outline" size="sm" onClick={() => handleDeleteClick(turma)}>
                     <Trash2 className="w-4 h-4 text-red-600" />
